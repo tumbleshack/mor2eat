@@ -4,7 +4,7 @@ mor2eat is an application of Yan's algorithm to find the maximum ordered list of
 
 # Why?
 
-I want to visit more Chick Fil A's than anyone ever has before. To do this, I need an optmial route (most CFA's, one day). Would it be easier to manually look at Google maps and construct one?
+I want to visit more Chick Fil A's than anyone ever has before in a single day. To do this, I need an optmial route (most CFA's, one day). Would it be easier to manually look at Google maps and construct one?
 
 Probably.
 
