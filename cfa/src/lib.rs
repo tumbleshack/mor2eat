@@ -11,10 +11,18 @@ pub fn run(arg: Arg) -> Result<(), Box<dyn Error>> {
     // println!("Results: {:?}", codes);
 
     // let object = locator::parse_locator_profile_from(arg.dir);
-    
 
-    let val = block_on(locator::locate_near("30269".to_string()));
-    println!("deserialized = {:?}", val?);
+    let val = block_on(locator::dispatcher([
+        "39817".to_string(),
+        "39818".to_string(),
+        "39819".to_string(),
+        "39823".to_string(),
+        "39824".to_string(),
+        "39825".to_string(),
+        "39826".to_string(),
+        "39829".to_string()
+        ].to_vec()));
+    println!("deserialized = {:?}", val);
 
     Ok(())
 }
