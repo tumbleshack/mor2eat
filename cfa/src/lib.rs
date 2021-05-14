@@ -1,15 +1,16 @@
 use std::error::Error;
 use std::fs;
-use std::collections::HashMap;
 
-use crossbeam; // 0.8.0
+mod locator;
 
 pub fn run(arg: Arg) -> Result<(), Box<dyn Error>> {
 
+    // let codes = zip_codes_in(arg.dir)?;
 
-    let codes = zip_codes_in(arg.dir)?;
+    // println!("Results: {:?}", codes);
 
-    println!("Results: {:?}", codes);
+    let object = locator::parse_locator_profile_from(arg.dir);
+    println!("deserialized = {:?}", object?);
 
     Ok(())
 }
