@@ -1,5 +1,6 @@
 use std::error::Error;
 use std::fs;
+use futures::executor::block_on;
 
 mod locator;
 
@@ -9,8 +10,11 @@ pub fn run(arg: Arg) -> Result<(), Box<dyn Error>> {
 
     // println!("Results: {:?}", codes);
 
-    let object = locator::parse_locator_profile_from(arg.dir);
-    println!("deserialized = {:?}", object?);
+    // let object = locator::parse_locator_profile_from(arg.dir);
+    
+
+    let val = block_on(locator::locate_near("30269".to_string()));
+    println!("deserialized = {:?}", val?);
 
     Ok(())
 }

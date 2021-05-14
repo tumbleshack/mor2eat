@@ -1,9 +1,12 @@
 use std::env;
 use std::process;
 
+use tokio;
+
 use cfa::Arg;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let args: Vec<String> = env::args().collect();
 
     let arg = Arg::new(&args).unwrap_or_else(|err| {

@@ -1,15 +1,43 @@
 // use std::collections::HashMap;
+use reqwest;
+use reqwest::header::ACCEPT;
+use reqwest::header::HeaderMap;
 use std::error::Error;
-use std::fs;
 
 // use crossbeam; // 0.8.0
 use serde::{Serialize, Deserialize};
 
-pub fn parse_locator_profile_from(file: String) -> Result<LocatorProfile, Box<dyn Error>> {
-    let contents = fs::read_to_string(file)?;
+pub async fn locate_near(zip_code: String) -> Result<LocatorJson, Box<dyn Error>> {
+    let params = [("q", zip_code.to_string()), ("per", "5".to_string())];
+    let mut map = HeaderMap::new();
+    map.insert(ACCEPT, "application/json".parse().unwrap());
 
-    let deserialized: LocatorProfile = serde_json::from_str(&contents).unwrap();
-    Ok(deserialized)
+    let client = reqwest::Client::new();
+    let req = client.get("https://locator.chick-fil-a.com.yext-cdn.com/search")
+        .query(&params)
+        .headers(map);
+
+    let res = req.send().await?;
+    let data = res.json::<LocatorJson>().await?;
+    
+    Ok(data)
+}
+
+// Object defintions
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct LocatorJson {
+    response: LocatorResponse,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct LocatorResponse {
+    entities: Vec<Entity>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Entity {
+    profile: LocatorProfile
 }
 
 #[derive(Serialize, Deserialize, Debug)]
