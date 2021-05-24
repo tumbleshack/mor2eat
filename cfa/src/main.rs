@@ -14,7 +14,7 @@ async fn main() {
         process::exit(1);
     });
 
-    println!("In file {}", arg.dir);
+    // println!("In file {}", arg.dir);
 
     if let Err(e) = cfa::run(arg) {
         println!("Application error: {}", e);

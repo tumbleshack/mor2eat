@@ -1,0 +1,341 @@
+{
+    "address": {
+        "city": "Albany",
+        "countryCode": "US",
+        "extraDescription": null,
+        "line1": "504 College Dr",
+        "line2": "Student Center",
+        "line3": null,
+        "postalCode": "31705",
+        "region": "GA",
+        "sublocality": null
+    },
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.chickfila.cfaflagship",
+    "c_GMTOffset": "GMT -04:00",
+    "c_acceptsCFACard": false,
+    "c_carryout": false,
+    "c_conceptCode": "LIC",
+    "c_curbside": false,
+    "c_delivery": false,
+    "c_deliveryMinimum": "100",
+    "c_deliveryRadius": "5",
+    "c_driveThru": false,
+    "c_fspCompany": "LIC-Alladin Food Mgmt",
+    "c_fspParentCompany": "Compass",
+    "c_fullDineIn": false,
+    "c_hasDiningRoom": false,
+    "c_hasDriveThru": false,
+    "c_limitedDineIn": false,
+    "c_liveOnPages": true,
+    "c_locationCode": "SAT",
+    "c_locationName": "Albany State University",
+    "c_locationSubtypeCode": "COLL",
+    "c_marketName": "Albany, GA",
+    "c_marketableName": "AlbanyStateUniversity",
+    "c_offersCatering": false,
+    "c_offersDelivery": false,
+    "c_offersMobileOrdering": false,
+    "c_offersMobilePayment": true,
+    "c_offersOnlineOrdering": false,
+    "c_offersPickup": false,
+    "c_offersWireless": false,
+    "c_openDate": {
+        "day": 8,
+        "month": 2,
+        "year": 2018
+    },
+    "c_openMonth": {
+        "day": 28,
+        "month": 2,
+        "year": 2018
+    },
+    "c_operatorID": "251912",
+    "c_operatorName": "K. J. Wari",
+    "c_pickupMinimum": "0",
+    "c_playground": "none",
+    "c_projectedOpenDate": "2018-02-28",
+    "c_residentialFlag": false,
+    "c_servesBreakfast": true,
+    "c_servesLimitedMenu": false,
+    "c_servesLunchAtBreakfast": true,
+    "c_status": "TEMPORARY_CLOSE",
+    "c_substatus": "Seasonal Closure",
+    "c_timezoneName": "(GMT -04:00) Eastern Time (US & Canada)",
+    "c_zipExtension": "2717",
+    "cityCoordinate": {
+        "lat": 31.576883,
+        "long": -84.17617
+    },
+    "closed": false,
+    "description": "As we navigate the evolving impact of coronavirus on our communities, we are temporarily closing our dining room seating to help limit person-to-person contact. Some of our restaurants may only offer service through our drive-thrus, while others may be able to offer takeout, delivery or mobile order options.",
+    "displayCoordinate": {
+        "lat": 31.5712,
+        "long": -84.142
+    },
+    "emails": [
+        "80681@chick-fil-a.com"
+    ],
+    "facebookCoverPhoto": {
+        "image": {
+            "height": 575,
+            "sourceUrl": "https://scontent.xx.fbcdn.net/v/t1.0-9/s720x720/54524185_10157474222560101_4115831971089743872_o.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=581672a36f6375c007a8f039740171b1&oe=5D6EC023",
+            "url": "//dynl.mktgcdn.com/p/xJKisua2Ge6UKpwY7KqUikLEe29AnmpmQVIn_VEOs3k/720x575.jpg",
+            "width": 720
+        }
+    },
+    "facebookName": "Chick-fil-A Albany State University",
+    "facebookPageUrl": "https://www.facebook.com/550317295122322",
+    "facebookParentPageId": "21543405100",
+    "facebookProfilePhoto": {
+        "image": {
+            "height": 200,
+            "sourceUrl": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/12821606_10154279565575101_144485923597968018_n.png?_nc_cat=1&_nc_ht=scontent.xx&oh=8fa27818058dceef6ae8b22e0af98eae&oe=5D716008",
+            "url": "//dynl.mktgcdn.com/p/3uxj2bNn7q1c5vM-VjHQw9YHcRx9KIJS6l03IGkq3_8/200x200.png",
+            "width": 200
+        }
+    },
+    "facebookStoreId": "80681",
+    "facebookVanityUrl": "CFAAlbanyStateUniversity",
+    "featuredMessage": {
+        "description": "Click here to order now!",
+        "url": "https://www.chick-fil-a.com/OrderFood"
+    },
+    "geocodedCoordinate": {
+        "lat": 31.5690317,
+        "long": -84.1404238
+    },
+    "googleAccountId": "103584499901169005765",
+    "googleAttributes": {},
+    "googlePlaceId": "ChIJbeYCzXd58ogR5HFZRUxc9rM",
+    "hours": {
+        "holidayHours": [
+            {
+                "date": "20210513",
+                "intervals": [],
+                "isClosed": true
+            },
+            {
+                "date": "20210531",
+                "intervals": [
+                    {
+                        "end": 1400,
+                        "start": 800
+                    }
+                ],
+                "isClosed": false
+            },
+            {
+                "date": "20210704",
+                "intervals": [],
+                "isClosed": true
+            },
+            {
+                "date": "20210906",
+                "intervals": [
+                    {
+                        "end": 1400,
+                        "start": 800
+                    }
+                ],
+                "isClosed": false
+            },
+            {
+                "date": "20211125",
+                "intervals": [],
+                "isClosed": true
+            },
+            {
+                "date": "20211126",
+                "intervals": [
+                    {
+                        "end": 1900,
+                        "start": 730
+                    }
+                ],
+                "isClosed": false
+            },
+            {
+                "date": "20211224",
+                "intervals": [],
+                "isClosed": true
+            },
+            {
+                "date": "20211225",
+                "intervals": [],
+                "isClosed": true
+            },
+            {
+                "date": "20211231",
+                "intervals": [],
+                "isClosed": true
+            },
+            {
+                "date": "20220101",
+                "intervals": [],
+                "isClosed": true
+            }
+        ],
+        "normalHours": [
+            {
+                "day": "MONDAY",
+                "intervals": [
+                    {
+                        "end": 2030,
+                        "start": 730
+                    }
+                ],
+                "isClosed": false
+            },
+            {
+                "day": "TUESDAY",
+                "intervals": [
+                    {
+                        "end": 2030,
+                        "start": 730
+                    }
+                ],
+                "isClosed": false
+            },
+            {
+                "day": "WEDNESDAY",
+                "intervals": [
+                    {
+                        "end": 2030,
+                        "start": 730
+                    }
+                ],
+                "isClosed": false
+            },
+            {
+                "dailyHolidayHours": {
+                    "date": "20210513",
+                    "intervals": [],
+                    "isClosed": true
+                },
+                "day": "THURSDAY",
+                "intervals": [
+                    {
+                        "end": 2030,
+                        "start": 730
+                    }
+                ],
+                "isClosed": false
+            },
+            {
+                "day": "FRIDAY",
+                "intervals": [
+                    {
+                        "end": 1900,
+                        "start": 730
+                    }
+                ],
+                "isClosed": false
+            },
+            {
+                "day": "SATURDAY",
+                "intervals": [
+                    {
+                        "end": 1900,
+                        "start": 1030
+                    }
+                ],
+                "isClosed": false
+            },
+            {
+                "day": "SUNDAY",
+                "intervals": [],
+                "isClosed": true
+            }
+        ]
+    },
+    "iosAppUrl": "https://itunes.apple.com/us/app/chick-fil-a/id488818252",
+    "isoRegionCode": "GA",
+    "logo": {
+        "image": {
+            "height": 400,
+            "sourceUrl": "https://pbs.twimg.com/profile_images/1148729107406041088/emlH0Rv4_400x400.png",
+            "thumbnails": [
+                {
+                    "height": 150,
+                    "url": "//dynl.mktgcdn.com/p/e-vf1dgV7OqiBInJLDydw8u9xd37VHW_sRMNb9-uNso/150x150.png",
+                    "width": 150
+                },
+                {
+                    "height": 94,
+                    "url": "//dynl.mktgcdn.com/p/e-vf1dgV7OqiBInJLDydw8u9xd37VHW_sRMNb9-uNso/94x94.png",
+                    "width": 94
+                }
+            ],
+            "url": "//dynl.mktgcdn.com/p/e-vf1dgV7OqiBInJLDydw8u9xd37VHW_sRMNb9-uNso/400x400.png",
+            "width": 400
+        }
+    },
+    "mainPhone": {
+        "countryCode": "US",
+        "display": "(229) 430-4747",
+        "number": "+12294304747"
+    },
+    "matchingSearchIds": [
+        "4081",
+        "4192",
+        "5473"
+    ],
+    "menuUrl": null,
+    "menus": {
+        "ids": [
+            "1398299"
+        ],
+        "label": null
+    },
+    "meta": {
+        "accountId": "93772416839514708",
+        "countryCode": "US",
+        "entityType": "restaurant",
+        "folderId": "267089",
+        "id": "80681",
+        "labels": [
+            "112622",
+            "63807"
+        ],
+        "language": "en",
+        "schemaTypes": [
+            "FastFoodRestaurant",
+            "Restaurant",
+            "LocalBusiness"
+        ],
+        "timestamp": "2021-05-13T06:03:35",
+        "uid": "4yoaNv",
+        "utcOffsets": [
+            {
+                "offset": -14400,
+                "start": 1615705200
+            },
+            {
+                "offset": -18000,
+                "start": 1636264800
+            },
+            {
+                "offset": -14400,
+                "start": 1647154800
+            }
+        ],
+        "yextId": 12104705
+    },
+    "name": "Chick-fil-A",
+    "orderUrl": "https://www.chick-fil-a.com/order",
+    "pickupAndDeliveryServices": [
+        "Pickup Not Offered",
+        "Delivery Not Offered"
+    ],
+    "reservationUrl": null,
+    "timezone": "America/New_York",
+    "websiteUrl": "https://www.chick-fil-a.com/albanystateuniversity",
+    "yextDisplayCoordinate": {
+        "lat": 31.571241,
+        "long": -84.14198
+    },
+    "yextRoutableCoordinate": {
+        "lat": 31.57222940058331,
+        "long": -84.14172556130211
+    }
+}

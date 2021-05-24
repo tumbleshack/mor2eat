@@ -1,10 +1,13 @@
 // use std::collections::HashMap;
 use crossbeam_utils::thread;
+// use std::fs;
 use reqwest;
 use reqwest::header::ACCEPT;
 use reqwest::header::HeaderMap;
+// use serde_json;
 use std::error::Error;
 use std::collections::HashMap;
+use super::utils;
 
 // use crossbeam; // 0.8.0
 use serde::{Serialize, Deserialize};
@@ -27,8 +30,7 @@ pub async fn locate_near(zip_code: String) -> Result<LocatorJson, Box<dyn Error>
     Ok(data)
 }
 
-pub async fn dispatcher(zip_codes: Vec<String>) {
-
+pub async fn dispatcher(zip_codes: Vec<String>) -> Result<Vec<LocatorProfile>, Box<dyn Error>> {
     let zip_code_chunks = zip_codes.chunks(100);
 
     let locations: Result<Vec<_>, _> = thread::scope(|s| {
@@ -37,17 +39,21 @@ pub async fn dispatcher(zip_codes: Vec<String>) {
                 let mut map = CfaProfiles::new();
                 for code in chunk {
                     let json_result = locate_near(code.to_string());
-                    for entity in json_result.unwrap().response.entities {
-                        map.insert(entity.profile.meta.id.to_string(), entity.profile);
+                    match json_result {
+                        Ok(data) => { 
+                            println!("{}: Processing successful request", code);
+                            for entity in data.response.entities {
+                                map.insert(entity.profile.meta.id.to_string(), entity.profile);
+                            }
+                        }
+                        Err(e) => println!("{}: ERROR! encountered when unwraping json data {:?}", code, e)
                     }
                 }
                 map
             })
         })
         .collect();
-
         threads.into_iter().map(|t| { t.join() } ).collect()
-
     }).unwrap();
 
     let locations = locations.unwrap();
@@ -58,9 +64,7 @@ pub async fn dispatcher(zip_codes: Vec<String>) {
 
     let all_locations = locations.values().cloned().collect::<Vec<LocatorProfile>>();
 
-    // let serialized = serde_json::to_string_pretty(&all_locations).unwrap();
-    // println!("serialized = {}", serialized);
-
+    Ok(all_locations)
 }
 
 fn merge_locations(mut a: CfaProfiles, b: CfaProfiles) -> CfaProfiles {
@@ -68,7 +72,25 @@ fn merge_locations(mut a: CfaProfiles, b: CfaProfiles) -> CfaProfiles {
     a
 }
 
-type CfaProfiles = HashMap<String, LocatorProfile>;
+pub fn output_cfa_data_to(path: String, data: Vec<LocatorProfile>) -> Result<(), Box<dyn Error>> {
+    println!("");
+    println!("Writing valid connection lists to file...");
+    utils::output_to(path, &data)
+}
+
+pub fn intput_cfa_data_from(path: String) -> Result<CfaProfiles, Box<dyn Error>> {
+    println!("Reading cfa data to memory...");
+    // let str = fs::read_to_string(path)?;
+    // let data: Vec<LocatorProfile> = serde_json::from_str(&str)?;
+    let data: Vec<LocatorProfile> = utils::input_from(&path[..])?;
+    let mut map = CfaProfiles::new();
+    for profile in data {
+        map.insert(profile.meta.id.to_string(), profile);
+    }
+    Ok(map)
+}
+
+pub type CfaProfiles = HashMap<String, LocatorProfile>;
 
 // Object defintions
 
@@ -88,62 +110,72 @@ struct Entity {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-struct Meta {
-    id: String,
+pub struct Meta {
+    pub id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[allow(non_snake_case)]
-struct StreetAddress {
-    city: Option<String>,
-    countryCode: Option<String>,
-    extraDescription: Option<String>,
-    line1: Option<String>,
-    line2: Option<String>,
-    line3: Option<String>,
-    postalCode: Option<String>,
-    region: Option<String>,
-    sublocality: Option<String>,
+pub struct StreetAddress {
+    pub city: Option<String>,
+    pub countryCode: Option<String>,
+    pub extraDescription: Option<String>,
+    pub line1: Option<String>,
+    pub line2: Option<String>,
+    pub line3: Option<String>,
+    pub postalCode: Option<String>,
+    pub region: Option<String>,
+    pub sublocality: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone)]
 #[allow(non_snake_case)]
-struct Coordinates {
-    lat: f64,
-    long: f64,
+pub struct Coordinates {
+    pub lat: f64,
+    pub long: f64,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone)]
-struct DayHourInterval {
-    start: i32,
-    end: i32,
+pub struct DayHourInterval {
+    pub start: i32,
+    pub end: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[allow(non_snake_case)]
-struct DayHour {
-    day: String,
-    isClosed: bool,
-    intervals: Vec<DayHourInterval>
+pub struct DayHour {
+    pub day: String,
+    pub isClosed: bool,
+    pub intervals: Vec<DayHourInterval>
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[allow(non_snake_case)]
-struct Hours {
-    normalHours: Vec<DayHour>
+pub struct Hours {
+    pub normalHours: Vec<DayHour>
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MainPhone {
+    pub display: String
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[allow(non_snake_case)]
 pub struct LocatorProfile {
-    googlePlaceId: Option<String>,
-    address: StreetAddress,
-    yextRoutableCoordinate: Coordinates,
-    c_conceptCode: String,
-    c_status: String,
-    c_locationSubtypeCode: String,
-    hours: Hours,
-    meta: Meta,
+    pub googlePlaceId: Option<String>,
+    pub address: StreetAddress,
+    pub yextRoutableCoordinate: Coordinates,
+    pub c_conceptCode: String,
+    pub c_status: String,
+    pub c_locationSubtypeCode: String,
+    pub c_carryout: bool,
+    pub c_fullDineIn: bool,
+    pub c_limitedDineIn: bool,
+    pub c_locationName: String,
+    pub hours: Hours,
+    pub mainPhone: Option<MainPhone>,
+    pub meta: Meta,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
