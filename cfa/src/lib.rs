@@ -1,7 +1,12 @@
+#![allow(dead_code)]
+
 use std::error::Error;
 use std::fs;
 use futures::executor::block_on;
 
+mod pathfinding;
+
+mod path_finder;
 mod locator;
 mod graph_builder;
 mod utils;
@@ -29,6 +34,10 @@ pub fn run(arg: Arg) -> Result<(), Box<dyn Error>> {
             let edges = graph_builder::build_edges(&cfa_profiles?, &valid_connections?)?;
             let _result = utils::output_to(arg.output_path, &edges);
         },
+        Action::RunYen => {
+            let edges = path_finder::input_unnumbered_edges_from(arg.dir)?;
+            let _output = path_finder::run_yen(&edges);
+        },
         Action::Test => { 
             println!("Testing...");
             let val = block_on(locator::dispatcher([
@@ -42,8 +51,7 @@ pub fn run(arg: Arg) -> Result<(), Box<dyn Error>> {
                 "39829".to_string()
                 ].to_vec()));
             locator::output_cfa_data_to(arg.output_path.to_string(), val?)?;
-        },
-        _ => return Ok(())
+        }
     }
 
     Ok(())
@@ -72,7 +80,7 @@ fn zip_codes_in(dir: String) -> Result<Vec<String>, Box<dyn Error>> {
 impl Arg {
     pub fn new(args: &[String]) -> Result<Arg, &str> {
         if args.len() < 2 {
-            return Err("not enough arguments");
+            return Err("\nNot enough arguments. At least two required.\n");
         }
 
         let action : Action;
@@ -93,6 +101,10 @@ impl Arg {
                 println!("    -form_graph, -fg  <cfa_metadata_dir> <connections_dir>");
                 println!("    -run_yen, -ry  <cfa_metadata_dir> <gmaps_data_dir>");
             },
+        }
+
+        if args.len() < 3 {
+            return Err("\nNot enough arguments. At least two required.\n");
         }
         
         let output_path = args[2].clone();

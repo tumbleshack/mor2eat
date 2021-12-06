@@ -1,5 +1,4 @@
 use crossbeam_utils::thread;
-use futures::executor::block_on;
 use reqwest;
 use reqwest::header::ACCEPT;
 use reqwest::header::HeaderMap;
@@ -9,6 +8,7 @@ use std::error::Error;
 use std::collections::HashMap;
 use super::locator;
 use super::utils;
+
 
 
 pub fn decide_connections_from(data: locator::CfaProfiles) -> Result<ConnectionLists, Box<dyn Error>> {
@@ -35,7 +35,7 @@ pub fn decide_connections_from(data: locator::CfaProfiles) -> Result<ConnectionL
 
 pub fn build_edges(profiles: &locator::CfaProfiles, valid_connections: &ConnectionLists) -> Result<Edges, Box<dyn Error>> {
     let sites: Vec<String> = valid_connections.keys().map(|s| (&**s).to_string()).collect::<Vec<_>>();
-    let site_chunks = sites.chunks(10);
+    let site_chunks = sites.chunks(500);
 
     let edge_chunks: Result<Vec<_>, _> = thread::scope(|s| {
         let threads: Vec<_> = site_chunks.map(|chunk| {
@@ -70,33 +70,52 @@ pub fn edges_for(sites: Vec<String>, profiles: &locator::CfaProfiles, connection
             let dest_loc_str = location_str_from(dest, profiles);
             destinations.push(dest_loc_str.unwrap());
         }
-        let dest_str = destinations.join("|");
-        let origin_str = location_str_from(&site, profiles).unwrap();
-        match call_distance_matrix(&origin_str, &dest_str) {
-            Ok(distance_data) => {
-                // println!("Distance data ={:?}", &distance_data.destination_addresses);
-                if distance_data.rows.len() > 0 {
-                    let mut distances: Vec<Edge> = Vec::new();
-                    for (index, element) in distance_data.rows.get(0).unwrap().elements.iter().enumerate() {
-                        let id_temp = conns.get(index).unwrap().to_string();
-                        // println!("Connection index {} is {}. Adress is: {:?}", 
-                        //     index, 
-                        //     id_temp, 
-                        //     profiles.get(&id_temp).unwrap().address.line1);
-                        let edge = Edge {
-                            node: id_temp,
-                            distance: element.duration.value
-                        };
-                        distances.push(edge);
+        if destinations.len() < 1 {
+            println!("{}: NONE destinations", &site);
+            continue;
+        }
+        let chunk_size = 5;
+        let dest_chunks = destinations.chunks(chunk_size);
+        // println!("dest chunks = {:?}", dest_chunks);
+        let mut chunk_idx = 0;
+        for dest_chunk in dest_chunks {
+            let dest_str = dest_chunk.join("|");
+            let origin_str = location_str_from(&site, profiles).unwrap();
+            // println!("origin = {}", origin_str);
+            // println!("desinations = {}", dest_str);
+            match call_distance_matrix(&origin_str, &dest_str) {
+                Ok(distance_data) => {
+                    // println!("Distance data ={:?}", &distance_data.destination_addresses);
+                    if distance_data.rows.len() > 0 {
+                        let mut distances: Vec<Edge> = Vec::new();
+                        for (index, element) in distance_data.rows.get(0).unwrap().elements.iter().enumerate() {
+                            let id_temp = conns.get(chunk_idx * chunk_size + index).unwrap().to_string();
+                            // println!("{}: mapping from {:?}", id_temp, element);
+                            let edge = Edge {
+                                node: id_temp,
+                                distance: element.duration.value
+                            };
+                            distances.push(edge);
+                        }
+                        if map.contains_key(&site) {
+                            for distance in distances {
+                                map.get_mut(&site).unwrap().push(distance);
+                            }
+                        } else {
+                            map.insert(site.clone(), distances.clone());
+                        }
+                    } else {
+                        println!("{}: ROWS LESS THAN 1", site);
+                        println!("{}: Distance data = {:?}", site, distance_data);
+                        println!("origin = {}", origin_str);
+                        println!("desinations = {}", dest_str);
                     }
-                    map.insert(site, distances);
-                } else {
-                    println!("ROWS LESS THAN 1");
+                },
+                Err(err) => {
+                    println!("Problem processing google maps data for site {}, {}", site, err);
                 }
-            },
-            Err(err) => {
-                println!("Problem processing google maps data for site {}, {}", site, err);
             }
+            chunk_idx += 1;
         }
     }
     map
@@ -162,6 +181,7 @@ pub type Edges = HashMap<String, Vec<Edge>>;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DistanceResponse {
+    pub status: String,
     pub destination_addresses: Vec<String>,
     pub rows: Vec<RowObject>,
 }
