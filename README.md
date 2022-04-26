@@ -1,6 +1,8 @@
 # mor2eat
 
-mor2eat is an application of Yan's algorithm to find the maximum ordered list of Chick Fil A's visitable under a time constraint. 
+mor2eat is an application of Yan's algorithm to find the maximum ordered list of nodes visitable under a distance constraint. Specifically, it solves this graph problem:
+
+Given a fully connected, directional graph G = (V, E) where each edge e_i has a weight w_i, find the path P = (v_1, v_2, … v_k) which maximizes the number of visited nodes k, but has total weight less than constraint d.
 
 # Why?
 
@@ -8,11 +10,11 @@ I want to visit more Chick Fil A's than anyone ever has before in a single day. 
 
 Probably.
 
-But that's not as fun. Let's find the absolute, mathematically most optimal route 😎
+But that's not as fun. Let's find the absolute optimal route 😎
 
 # General Intuition
 
-Make a graph, where Chick Fil A's are nodes and directed, weighted edges between them represent the Google Maps estimated travel time. For practical concerns, the graph is not fully connected. Rather, only CFA's within about 35 miles of each other are connected.
+Make a graph, where Chick Fil A's are nodes, and directed, weighted edges between them represent the Google Maps estimated travel time. By inspection, the solution path will not have any leg longer than an hour, so the graph is not fully connected. Rather, only CFA's within about 35 miles of each other are connected.
 
 Once the graph is built, repeatedly run Dijkstra's algorithm between a source and sink node to find the n shortest paths (in order). This process is known as Yan's algorithm. Of all paths under a certaint time, say 15.5 hours, find the one with the most nodes.
 
